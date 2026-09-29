@@ -1,0 +1,23 @@
+name: send-push
+on:
+  schedule:
+    - cron: "0 11 * * *"   # 18:00 Asia/Bangkok (UTC+7)
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Send a test notification to every enabled device"
+        type: boolean
+        default: false
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save web-push@3
+      - run: node send-push.mjs
+        env:
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          TEST_MODE: ${{ inputs.test && '1' || '0' }}
