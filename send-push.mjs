@@ -38,7 +38,7 @@ let sent=0,skipped=0,removed=0,failed=0;
 for(const s of subs){
   const mine=[...major,...(ge[s.uid]||[]).filter(e=>e&&e.date===tomorrow)].sort((a,b)=>(a.start||"").localeCompare(b.start||""));
   let payload;
-  if(TEST)payload={title:"",body:"ถ้าเห็นข้อความนี้ แสดงว่าแจ้งเตือนใช้งานได้แล้ว",tag:"nubone-test"};
+  if(TEST)payload={title:"Notification",body:"ถ้าเห็นข้อความนี้ แสดงว่าแจ้งเตือนใช้งานได้แล้ว",tag:"nubone-test"};
   else if(!mine.length){skipped++;continue;}
   else payload={title:mine.length>1?`พรุ่งนี้มีสอบ ${mine.length} วิชา`:"พรุ่งนี้มีสอบ",body:mine.slice(0,4).map(line).join("\n"),tag:"nubone-"+tomorrow};
   if(DRY){console.log("DRY",s.uid,JSON.stringify(payload));sent++;continue;}
